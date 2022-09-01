@@ -9,11 +9,11 @@ import (
 func CheckAuth() Middleware {
 	return func(handlerFunction http.HandlerFunc) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
-			fllag := false
-			fmt.Println("CheckAuth")
+			fllag := true
 			if fllag {
 				handlerFunction(w, r) // Call next Middleware
 			} else {
+				fmt.Fprintf(w, "Authentication failed")
 				return // Fail authentication
 			}
 		}
