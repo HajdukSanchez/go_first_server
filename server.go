@@ -22,6 +22,12 @@ func (server *Server) Handler(path string, handler http.HandlerFunc) {
 	server.router.rules[path] = handler
 }
 
+// This functions allow us to add multiple middlewares to a specific handler function
+// Using 3 dots before the DataType, we can pass zero, one or N data of this specific type
+func (server *Server) AddMiddlewares(handlerFunction http.HandlerFunc, middlewares ...Middleware) {
+	// Logic to concat middlewares and handler function
+}
+
 // Function to start listen on the server
 func (server *Server) Listen() error {
 	http.Handle("/", server.router) // Handle HTTP request of this endpoint
