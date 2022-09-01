@@ -1,6 +1,8 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
+)
 
 type Server struct {
 	port   string // Port of the server
@@ -13,6 +15,11 @@ func NewServer(port string) *Server {
 		port:   port,
 		router: NewRouter(),
 	}
+}
+
+// Function to connect a path with a handler function
+func (server *Server) Handler(path string, handler http.HandlerFunc) {
+	server.router.rules[path] = handler
 }
 
 // Function to start listen on the server
