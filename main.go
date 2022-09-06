@@ -10,6 +10,7 @@ func main() {
 	adminMiddlewares := []Middleware{CheckAuth(), Loading()} // Middlewares for admin profile
 
 	server.Handler("GET", "/", HandleRoot)
+	server.Handler("POST", "/user", UserPostRequest)
 	server.Handler("POST", "/api", server.AddMiddlewares(HandleAPI, adminMiddlewares...))
 
 	server.Listen()
