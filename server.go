@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"strings"
 )
 
 type Server struct {
@@ -18,8 +19,12 @@ func NewServer(port string) *Server {
 }
 
 // Function to connect a path with a handler function
-func (server *Server) Handler(path string, handler http.HandlerFunc) {
-	server.router.rules[path] = handler
+func (server *Server) Handler(method string, path string, handler http.HandlerFunc) {
+	_, exist := server.router.rules[path] // Check if this first level key on the map exists
+	if !exist {
+		server.router.rules[path] = make(map[string]http.HandlerFunc) // Create map
+	}
+	server.router.rules[path][strings.ToUpper(method)] = handler
 }
 
 // This functions allow us to add multiple middlewares to a specific handler function

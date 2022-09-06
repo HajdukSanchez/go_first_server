@@ -1,11 +1,16 @@
 package main
 
+import "fmt"
+
 func main() {
-	server := NewServer(":3000")
+	port := "3000"
+	server := NewServer(":" + port)
+	fmt.Println("Server listening on port:", port)
 
 	adminMiddlewares := []Middleware{CheckAuth(), Loading()} // Middlewares for admin profile
 
-	server.Handler("/", HandleRoot)
-	server.Handler("/api", server.AddMiddlewares(HandleRoot, adminMiddlewares...))
+	server.Handler("GET", "/", HandleRoot)
+	server.Handler("POST", "/api", server.AddMiddlewares(HandleAPI, adminMiddlewares...))
+
 	server.Listen()
 }
